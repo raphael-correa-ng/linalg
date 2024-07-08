@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Linalg
+﻿namespace Linalg
 { 
     public sealed partial class Rational : IArithmetical<Rational>, ICloneable, IComparable<Rational>
     {

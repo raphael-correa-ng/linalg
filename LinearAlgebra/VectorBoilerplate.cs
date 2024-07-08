@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Linalg
+﻿namespace Linalg
 {
     public partial class Vector
     {

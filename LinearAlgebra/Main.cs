@@ -1,5 +1,4 @@
 ﻿using Linalg;
-using System;
 using System.Diagnostics;
 
 class MatrixDemo

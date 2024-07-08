@@ -1,5 +1,4 @@
-﻿
-namespace Linalg
+﻿namespace Linalg
 {
     public sealed partial class Complex
     {

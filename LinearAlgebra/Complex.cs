@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Linalg
+﻿namespace Linalg
 {
     public sealed partial class Complex : IArithmetical<Complex>, ICloneable
     {
