@@ -5,7 +5,8 @@ namespace Linalg
 {
     public class ParallelMatrixMultiplicator
     {
-        public DoubleMatrix Multiply(DoubleMatrix a, DoubleMatrix b, int blockSize)
+        public AbstractMatrix<Matrix, T> Multiply<Matrix, T>(AbstractMatrix<Matrix, T> a, AbstractMatrix<Matrix, T> b, int blockSize)
+             where Matrix : AbstractMatrix<Matrix, T>, new()
         {
             if (!a.CanMultiplyWith(b))
                 throw new ArgumentException();
@@ -19,7 +20,7 @@ namespace Linalg
                 br % blockSize != 0 || bc % blockSize != 0)
                 throw new IndexOutOfRangeException();
 
-            DoubleMatrix result = new DoubleMatrix(new double[ar, bc]);
+            Matrix result = new Matrix().Set(new T[ar, bc]);
 
             int processCount = (ar * bc) / (blockSize * blockSize);
             int blocksPerProcess = ac / blockSize; 
@@ -29,8 +30,8 @@ namespace Linalg
 
             for (int i = 0; i < processCount; i++)
             {
-                DoubleMatrix[] blocksA = new DoubleMatrix[blocksPerProcess];
-                DoubleMatrix[] blocksB = new DoubleMatrix[blocksPerProcess];
+                AbstractMatrix<Matrix, T>[] blocksA = new AbstractMatrix<Matrix, T>[blocksPerProcess];
+                AbstractMatrix<Matrix, T>[] blocksB = new AbstractMatrix<Matrix, T>[blocksPerProcess];
 
                 int row = (i / multiplicationsPerBlock) * blockSize;
                 int col = (i % multiplicationsPerBlock) * blockSize;
@@ -51,22 +52,22 @@ namespace Linalg
             return result;
         }
 
-        private static void Multiply(
-            DoubleMatrix result,
-            DoubleMatrix[] blocksA,
-            DoubleMatrix[] blocksB, 
+        private static void Multiply<Matrix, T>(
+            AbstractMatrix<Matrix, T> result,
+            AbstractMatrix<Matrix, T>[] blocksA,
+            AbstractMatrix<Matrix, T>[] blocksB, 
             int row,
             int col,
-            int size)
+            int size) where Matrix : AbstractMatrix<Matrix, T>, new()
         {
             Debug.Assert(blocksA.Length == blocksB.Length);
 
-            DoubleMatrix sumOfProducts = null;
+            AbstractMatrix<Matrix, T> sumOfProducts = null;
 
             for (int k = 0; k < blocksA.Length; k++)
             {
-                DoubleMatrix toAdd = blocksA[k].Mul(blocksB[k]);
-                sumOfProducts = sumOfProducts == null ? toAdd : sumOfProducts + toAdd;
+                AbstractMatrix<Matrix, T> toAdd = blocksA[k].Mul(blocksB[k]);
+                sumOfProducts = sumOfProducts == null ? toAdd : sumOfProducts.Add(toAdd);
             }
 
             result.SetBlock(row, col, sumOfProducts);

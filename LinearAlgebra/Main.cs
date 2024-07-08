@@ -1,4 +1,5 @@
 ﻿using Linalg;
+using LinAlg;
 using System.Diagnostics;
 
 class MatrixDemo
@@ -136,7 +137,7 @@ class MatrixDemo
 
         Console.WriteLine("Starting parallel...");
         stopWatch.Start();
-        DoubleMatrix parallelResult = multiplicator.Multiply(A, B, 250);
+        AbstractMatrix<DoubleMatrix, double> parallelResult = multiplicator.Multiply(A, B, 250);
         stopWatch.Stop();
         Console.WriteLine($"Parallel: {stopWatch.Elapsed}");
 

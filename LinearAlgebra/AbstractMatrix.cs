@@ -27,7 +27,7 @@ namespace LinAlg
 
         protected abstract T DivComponent(T t0, T t1);
 
-        public Matrix Add(Matrix that)
+        public Matrix Add(AbstractMatrix<Matrix, T> that)
         {
             if (!IsSameDimensionsAs(that))
                 throw new ArgumentException("Cannot add matrices of different dimensions.");
@@ -41,7 +41,7 @@ namespace LinAlg
             return new Matrix().Set(result);
         }
 
-        public Matrix Sub(Matrix that)
+        public Matrix Sub(AbstractMatrix<Matrix, T> that)
         {
             if (!IsSameDimensionsAs(that))
                 throw new ArgumentException("Cannot add matrices of different dimensions.");
@@ -55,7 +55,7 @@ namespace LinAlg
             return new Matrix().Set(result);
         }
 
-        public Matrix Mul(Matrix that)
+        public Matrix Mul(AbstractMatrix<Matrix, T> that)
         {
             if (!CanMultiplyWith(that))
                 throw new ArgumentException("Cannot multiply matrices of such dimensions.");
@@ -120,7 +120,7 @@ namespace LinAlg
             return new Matrix().Set(block);
         }
 
-        public void SetBlock(int a, int b, Matrix block)
+        public void SetBlock(int a, int b, AbstractMatrix<Matrix, T> block)
         {
             if (block.Rows + a > Rows || block.Columns + b > Columns)
                 throw new IndexOutOfRangeException("Submatrix out of bounds.");
@@ -130,12 +130,12 @@ namespace LinAlg
                     this[i + a, j + b] = block[i, j];
         }
 
-        public bool IsSameDimensionsAs(Matrix that)
+        public bool IsSameDimensionsAs(AbstractMatrix<Matrix, T> that)
         {
             return Rows == that.Rows && Columns == that.Columns;
         }
 
-        public bool CanMultiplyWith(Matrix that)
+        public bool CanMultiplyWith(AbstractMatrix<Matrix, T> that)
         {
             return Columns == that.Rows;
         }
@@ -199,7 +199,7 @@ namespace LinAlg
             }
         }
 
-        private Matrix Set(T[,] data)
+        internal Matrix Set(T[,] data)
         {
             Data = data;
             Rows = data.GetLength(0);
