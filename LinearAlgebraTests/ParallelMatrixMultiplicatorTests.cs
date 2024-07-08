@@ -10,12 +10,12 @@ namespace Linalg.Tests
         public void TestMultiplyNonSquare()
         {
             // Arrange
-            UnsafeMatrix<long> A = Utils.RandomMatrix(50, 75);
-            UnsafeMatrix<long> B = Utils.RandomMatrix(75, 50);
+            DoubleMatrix A = Utils.RandomDoubleMatrix(50, 75);
+            DoubleMatrix B = Utils.RandomDoubleMatrix(75, 50);
 
             // Act
-            UnsafeMatrix<long> actual = new ParallelMatrixMultiplicator()
-                .Multiply<long>(A, B, 25);
+            DoubleMatrix actual = new ParallelMatrixMultiplicator()
+                .Multiply(A, B, 25);
 
             // Assert
             Assert.AreEqual(actual, A * B);
@@ -25,12 +25,12 @@ namespace Linalg.Tests
         public void TestMultiplySquare()
         {
             // Arrange
-            UnsafeMatrix<long> A = Utils.RandomMatrix(50, 50);
-            UnsafeMatrix<long> B = Utils.RandomMatrix(50, 50);
+            DoubleMatrix A = Utils.RandomDoubleMatrix(50, 50);
+            DoubleMatrix B = Utils.RandomDoubleMatrix(50, 50);
 
             // Act
-            UnsafeMatrix<long> actual = new ParallelMatrixMultiplicator()
-                .Multiply<long>(A, B, 10);
+            DoubleMatrix actual = new ParallelMatrixMultiplicator()
+                .Multiply(A, B, 10);
 
             // Assert
             Assert.AreEqual(actual, A * B);
@@ -40,12 +40,12 @@ namespace Linalg.Tests
         public void TestMultiplyShouldFailNotEvenlyPartitioned()
         {
             // Arrange
-            UnsafeMatrix<long> A = Utils.RandomMatrix(50, 50);
-            UnsafeMatrix<long> B = Utils.RandomMatrix(50, 50);
+            DoubleMatrix A = Utils.RandomDoubleMatrix(50, 50);
+            DoubleMatrix B = Utils.RandomDoubleMatrix(50, 50);
 
             // Act & Assert
             Assert.ThrowsException<IndexOutOfRangeException>(() => 
-                new ParallelMatrixMultiplicator().Multiply<long>(A, B, 15));
+                new ParallelMatrixMultiplicator().Multiply(A, B, 15));
         }
     }
 }

@@ -1,21 +1,19 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
 
 namespace Linalg.Tests
 {
     [TestClass()]
-    public class VectorTests
+    public class RationalVectorTests
     {
         [TestMethod()]
         public void TestAdd()
         {
             // Arrange
-            Vector a = V(1, 2, 3);
-            Vector b = V(3, 4, 5);
+            RationalVector a = V(1, 2, 3);
+            RationalVector b = V(3, 4, 5);
 
             // Act
-            Vector actual = a + b;
+            RationalVector actual = a + b;
 
             // Assert
             Assert.AreEqual(actual, V(4, 6, 8));
@@ -25,8 +23,8 @@ namespace Linalg.Tests
         public void TestAddShouldFailDifferentDimensions()
         {
             // Arrange
-            Vector a = V(1, 2, 3);
-            Vector b = V(3, 4, 5, 6);
+            RationalVector a = V(1, 2, 3);
+            RationalVector b = V(3, 4, 5, 6);
 
             // Act & Assert
             Assert.ThrowsException<ArgumentException>(() => a + b);
@@ -36,11 +34,11 @@ namespace Linalg.Tests
         public void TestSub()
         {
             // Arrange
-            Vector a = V(1, 2, 3);
-            Vector b = V(3, 4, 5);
+            RationalVector a = V(1, 2, 3);
+            RationalVector b = V(3, 4, 5);
 
             // Act
-            Vector actual = a - b;
+            RationalVector actual = a - b;
 
             // Assert
             Assert.AreEqual(actual, V(-2, -2, -2));
@@ -50,8 +48,8 @@ namespace Linalg.Tests
         public void TestSubShouldFailDifferentDimensions()
         {
             // Arrange
-            Vector a = V(1, 2, 3);
-            Vector b = V(3, 4, 5, 6);
+            RationalVector a = V(1, 2, 3);
+            RationalVector b = V(3, 4, 5, 6);
 
             // Act & Assert
             Assert.ThrowsException<ArgumentException>(() => a - b);
@@ -61,11 +59,11 @@ namespace Linalg.Tests
         public void TestMul()
         {
             // Arrange
-            Vector a = V(1, 2, 3);
+            RationalVector a = V(1, 2, 3);
             Rational scalar = new Rational(3);
 
             // Act
-            Vector actual = a * scalar;
+            RationalVector actual = a * scalar;
 
             // Assert
             Assert.AreEqual(actual, V(3, 6, 9));
@@ -75,11 +73,11 @@ namespace Linalg.Tests
         public void TestDiv()
         {
             // Arrange
-            Vector a = V(3, 6, 9);
+            RationalVector a = V(3, 6, 9);
             Rational scalar = new Rational(3);
 
             // Act
-            Vector actual = a / scalar;
+            RationalVector actual = a / scalar;
 
             // Assert
             Assert.AreEqual(actual, V(1, 2, 3));
@@ -89,8 +87,8 @@ namespace Linalg.Tests
         public void TestDotProd()
         {
             // Arrange
-            Vector a = V(3, 6, 9);
-            Vector b = V(1, 2, 3);
+            RationalVector a = V(3, 6, 9);
+            RationalVector b = V(1, 2, 3);
 
             // Act
             Rational actual = a * b;
@@ -103,8 +101,8 @@ namespace Linalg.Tests
         public void TestDotProdShouldFailDifferentDimensions()
         {
             // Arrange
-            Vector a = V(3, 6, 9);
-            Vector b = V(1, 2, 3, 4);
+            RationalVector a = V(3, 6, 9);
+            RationalVector b = V(1, 2, 3, 4);
 
             // Act & Assert
             Assert.ThrowsException<ArgumentException>(() => a * b);
@@ -114,10 +112,10 @@ namespace Linalg.Tests
         public void TestNormalize()
         {
             // Arrange
-            Vector a = V(3, 6, 9);
+            RationalVector a = V(3, 6, 9);
 
             // Act
-            Vector actual = a.Normalize();
+            RationalVector actual = a.Normalize();
 
             // Assert
             Assert.AreEqual(actual.Length(), Rational.ONE);
@@ -127,7 +125,7 @@ namespace Linalg.Tests
         public void TestNorm()
         {
             // Arrange
-            Vector a = V(3, 6, 9);
+            RationalVector a = V(3, 6, 9);
 
             // Act
             Rational actual = a.Length();
@@ -136,9 +134,9 @@ namespace Linalg.Tests
             Assert.AreEqual(actual, new Rational(11));
         }
 
-        private static Vector V(params long[] nominators)
+        private static RationalVector V(params long[] nominators)
         {
-            return new Vector(nominators.Select(nom => new Rational(nom)).ToList());
+            return new RationalVector(nominators.Select(nom => new Rational(nom)).ToList());
         }
     }
 }

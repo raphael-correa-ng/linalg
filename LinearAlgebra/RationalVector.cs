@@ -2,17 +2,18 @@
 
 namespace Linalg
 {
-    public partial class Vector
+    public partial class RationalVector
     {
         private readonly Rational[] vector;
+
         public int Dimension { get; } = 0;
 
-        public Vector(int n) 
+        public RationalVector(int n) 
             : this(GetNewVector(n))
         {
         }
 
-        public Vector(IEnumerable<Rational> vector) {
+        public RationalVector(IEnumerable<Rational> vector) {
             this.vector = vector.ToArray();
             Dimension = this.vector.Length;
         }
@@ -27,31 +28,31 @@ namespace Linalg
             return vector.GetEnumerator();
         }
 
-        public Vector Add(Vector that)
+        public RationalVector Add(RationalVector that)
         {
             AssertLength(this, that, "Cannot add vectors of different dimensions");
 
-            return new Vector(vector.Zip(that.vector, (a, b) => a + b));
+            return new RationalVector(vector.Zip(that.vector, (a, b) => a + b));
         }
 
-        public Vector Sub(Vector that)
+        public RationalVector Sub(RationalVector that)
         {
             AssertLength(this, that, "Cannot subtract vectors of different dimensions");
 
-            return new Vector(vector.Zip(that.vector, (a, b) => a - b));
+            return new RationalVector(vector.Zip(that.vector, (a, b) => a - b));
         }
 
-        public Vector Mul(Rational scalar)
+        public RationalVector Mul(Rational scalar)
         {
-            return new Vector(vector.Select(r => r * scalar));
+            return new RationalVector(vector.Select(r => r * scalar));
         }
 
-        public Vector Div(Rational scalar)
+        public RationalVector Div(Rational scalar)
         {
-            return new Vector(vector.Select(r => r / scalar));
+            return new RationalVector(vector.Select(r => r / scalar));
         }
 
-        public Rational DotProd(Vector that)
+        public Rational DotProd(RationalVector that)
         {
             AssertLength(this, that, "Cannot compute dot product of vectors of different dimensions");
             
@@ -59,7 +60,7 @@ namespace Linalg
                 .Aggregate(Rational.ZERO, (result, next) => result.Add(next));
         }
 
-        public Vector Normalize()
+        public RationalVector Normalize()
         {
             return this / Length();
         }
@@ -79,7 +80,7 @@ namespace Linalg
             return vector;
         }
 
-        private static void AssertLength(Vector a, Vector b, String message)
+        private static void AssertLength(RationalVector a, RationalVector b, String message)
         {
             if (a.Dimension != b.Dimension)
                 throw new ArgumentException(message);
@@ -97,10 +98,10 @@ namespace Linalg
             if (obj == null)
                 return false;
 
-            if (!(obj is Vector))
+            if (!(obj is RationalVector))
                 return false;
 
-            Vector that = (Vector)obj;
+            RationalVector that = (RationalVector)obj;
 
             if (Dimension != that.Dimension)
                 return false;
@@ -117,28 +118,28 @@ namespace Linalg
             return "[" + string.Join(", ", (object[])vector) + "]";
         }
 
-        public static bool operator ==(Vector a, Vector b) =>
+        public static bool operator ==(RationalVector a, RationalVector b) =>
             a.Equals(b);
 
-        public static bool operator !=(Vector a, Vector b) =>
+        public static bool operator !=(RationalVector a, RationalVector b) =>
            !a.Equals(b);
 
-        public static Vector operator +(Vector a, Vector b) =>
+        public static RationalVector operator +(RationalVector a, RationalVector b) =>
             a.Add(b);
 
-        public static Vector operator -(Vector a, Vector b) =>
+        public static RationalVector operator -(RationalVector a, RationalVector b) =>
             a.Sub(b);
 
-        public static Rational operator *(Vector a, Vector b) =>
+        public static Rational operator *(RationalVector a, RationalVector b) =>
             a.DotProd(b);
 
-        public static Vector operator *(Vector a, Rational scalar) =>
+        public static RationalVector operator *(RationalVector a, Rational scalar) =>
             a.Mul(scalar);
 
-        public static Vector operator /(Vector a, Rational scalar) =>
+        public static RationalVector operator /(RationalVector a, Rational scalar) =>
             a.Div(scalar);
 
-        public static explicit operator double[](Vector a) =>
+        public static explicit operator double[](RationalVector a) =>
             a.vector.Select(r => (double)r).ToArray();
     }
 }

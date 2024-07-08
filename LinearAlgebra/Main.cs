@@ -7,7 +7,7 @@ class MatrixDemo
     {
         VectorDemo();
         Console.ReadLine();
-        SafeMatrixDemo();
+        ComplexMatrixDemo();
         Console.ReadLine();
         ParallelUnsafeMatrixDemo();
         Console.ReadLine();
@@ -16,8 +16,8 @@ class MatrixDemo
     private static void VectorDemo()
     {
         Console.WriteLine("-------VECTOR DEMO-------");
-        Vector A = Utils.RandomVector(5, 9, 9);
-        Vector B = Utils.RandomVector(5, 9, 9);
+        RationalVector A = Utils.RandomVector(5, 9, 9);
+        RationalVector B = Utils.RandomVector(5, 9, 9);
 
         Console.WriteLine("A:");
         Console.WriteLine(A);
@@ -81,11 +81,11 @@ class MatrixDemo
         Console.WriteLine();
     }
 
-    private static void SafeMatrixDemo()
+    private static void ComplexMatrixDemo()
     {
         Console.WriteLine("-------MATRIX OF COMPLEX NUMBERS DEMO-------");
-        SafeMatrix<Complex> A = Utils.RandomMatrix(3, 3, Utils.RandomComplex);
-        SafeMatrix<Complex> B = Utils.RandomMatrix(3, 3, Utils.RandomComplex);
+        ComplexMatrix A = Utils.RandomComplexMatrix(3, 3);
+        ComplexMatrix B = Utils.RandomComplexMatrix(3, 3);
 
         Console.WriteLine("A:");
         Console.WriteLine(A);
@@ -127,8 +127,8 @@ class MatrixDemo
         Console.WriteLine("-------PARALLEL MATRIX MULTIPLICATION DEMO-------");
         ParallelMatrixMultiplicator multiplicator = new ParallelMatrixMultiplicator();
 
-        UnsafeMatrix<long> A = Utils.RandomMatrix(500, 750);
-        UnsafeMatrix<long> B = Utils.RandomMatrix(750, 500);
+        DoubleMatrix A = Utils.RandomDoubleMatrix(500, 750);
+        DoubleMatrix B = Utils.RandomDoubleMatrix(750, 500);
 
         Console.WriteLine("Multiplying two matrices {0}x{1} and {2}x{3}", A.Rows, A.Columns, B.Rows, B.Columns);
 
@@ -136,7 +136,7 @@ class MatrixDemo
 
         Console.WriteLine("Starting parallel...");
         stopWatch.Start();
-        UnsafeMatrix<long> parallelResult = multiplicator.Multiply(A, B, 250);
+        DoubleMatrix parallelResult = multiplicator.Multiply(A, B, 250);
         stopWatch.Stop();
         Console.WriteLine($"Parallel: {stopWatch.Elapsed}");
 
@@ -144,7 +144,7 @@ class MatrixDemo
 
         Console.WriteLine("Starting serial...");
         stopWatch.Start();
-        UnsafeMatrix<long> serialResult = A * B;
+        DoubleMatrix serialResult = A * B;
         stopWatch.Stop();
         Console.WriteLine($"Serial: {stopWatch.Elapsed}");
 

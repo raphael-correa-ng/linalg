@@ -1,23 +1,22 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace Linalg.Tests
 {
     [TestClass()]
-    public class MatrixTests
+    public class RationalMatrixTests
     {
         [TestMethod()]
         public void TestAdd()
         {
             // Arrange
-            SafeMatrix<Rational> a = new SafeMatrix<Rational>(
+            RationalMatrix a = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3) },
                     { R(2), R(3), R(4) },
                     { R(3), R(4), R(5) }
                 });
 
-            SafeMatrix<Rational> b = new SafeMatrix<Rational>(
+            RationalMatrix b = new RationalMatrix(
                 new Rational[,] {
                     { R(4), R(5), R(6) },
                     { R(5), R(6), R(7) },
@@ -25,10 +24,10 @@ namespace Linalg.Tests
                 });
 
             // Act
-            SafeMatrix<Rational> actual = a + b;
+            RationalMatrix actual = a + b;
 
             // Assert
-            SafeMatrix<Rational> expected = new SafeMatrix<Rational>(
+            RationalMatrix expected = new RationalMatrix(
                 new Rational[,] {
                     { R(5), R(7), R(9) },
                     { R(7), R(9), R(11) },
@@ -43,14 +42,14 @@ namespace Linalg.Tests
         public void TestAddShouldFailDifferentDimensions()
         {
             // Arrange
-            SafeMatrix<Rational> a = new SafeMatrix<Rational>(
+            RationalMatrix a = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3) },
                     { R(2), R(3), R(4) },
                     { R(3), R(4), R(5) }
                 });
 
-            SafeMatrix<Rational> b = new SafeMatrix<Rational>(
+            RationalMatrix b = new RationalMatrix(
                 new Rational[,] {
                     { R(4), R(5), R(6) },
                     { R(5), R(6), R(7) }
@@ -64,14 +63,14 @@ namespace Linalg.Tests
         public void TestSub()
         {
             // Arrange
-            SafeMatrix<Rational> a = new SafeMatrix<Rational>(
+            RationalMatrix a = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3) },
                     { R(2), R(3), R(4) },
                     { R(3), R(4), R(5) }
                 });
 
-            SafeMatrix<Rational> b = new SafeMatrix<Rational>(
+            RationalMatrix b = new RationalMatrix(
                 new Rational[,] {
                     { R(4), R(5), R(6) },
                     { R(5), R(6), R(7) },
@@ -79,10 +78,10 @@ namespace Linalg.Tests
                 });
 
             // Act
-            SafeMatrix<Rational> actual = a - b;
+            RationalMatrix actual = a - b;
 
             // Assert
-            SafeMatrix<Rational> expected = new SafeMatrix<Rational>(
+            RationalMatrix expected = new RationalMatrix(
                 new Rational[,] {
                     { R(-3), R(-3), R(-3) },
                     { R(-3), R(-3), R(-3) },
@@ -97,14 +96,14 @@ namespace Linalg.Tests
         public void TestSubShouldFailDifferentDimensions()
         {
             // Arrange
-            SafeMatrix<Rational> a = new SafeMatrix<Rational>(
+            RationalMatrix a = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3) },
                     { R(2), R(3), R(4) },
                     { R(3), R(4), R(5) }
                 });
 
-            SafeMatrix<Rational> b = new SafeMatrix<Rational>(
+            RationalMatrix b = new RationalMatrix(
                 new Rational[,] {
                     { R(4), R(5), R(6) },
                     { R(5), R(6), R(7) }
@@ -118,14 +117,14 @@ namespace Linalg.Tests
         public void TestMulSquare()
         {
             // Arrange
-            SafeMatrix<Rational> a = new SafeMatrix<Rational>(
+            RationalMatrix a = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3) },
                     { R(2), R(3), R(4) },
                     { R(3), R(4), R(5) }
                 });
 
-            SafeMatrix<Rational> b = new SafeMatrix<Rational>(
+            RationalMatrix b = new RationalMatrix(
                 new Rational[,] {
                     { R(4), R(5), R(6) },
                     { R(5), R(6), R(7) },
@@ -133,10 +132,10 @@ namespace Linalg.Tests
                 });
 
             // Act
-            SafeMatrix<Rational> actual = a * b;
+            RationalMatrix actual = a * b;
 
             // Assert
-            SafeMatrix<Rational> expected = new SafeMatrix<Rational>(
+            RationalMatrix expected = new RationalMatrix(
                 new Rational[,] {
                     { R(32), R(38), R(44) },
                     { R(47), R(56), R(65) },
@@ -150,7 +149,7 @@ namespace Linalg.Tests
         public void TestMulNonSquare()
         {
             // Arrange
-            SafeMatrix<Rational> a = new SafeMatrix<Rational>(
+            RationalMatrix a = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3) },
                     { R(2), R(3), R(4) },
@@ -158,7 +157,7 @@ namespace Linalg.Tests
                     { R(4), R(5), R(6) }
                 });
 
-            SafeMatrix<Rational> b = new SafeMatrix<Rational>(
+            RationalMatrix b = new RationalMatrix(
                 new Rational[,] {
                     { R(5), R(6), R(7), R(6) },
                     { R(6), R(7), R(8), R(9) },
@@ -166,10 +165,10 @@ namespace Linalg.Tests
                 });
 
             // Act
-            SafeMatrix<Rational> actual = a * b;
+            RationalMatrix actual = a * b;
 
             // Assert
-            SafeMatrix<Rational> expected = new SafeMatrix<Rational>(
+            RationalMatrix expected = new RationalMatrix(
                 new Rational[,] {
                     { R(38), R(44), R(50), R(54) },
                     { R(56), R(65), R(74), R(79) },
@@ -184,14 +183,14 @@ namespace Linalg.Tests
         public void TestMulShouldFailIncompatibleDimensions()
         {
             // Arrange
-            SafeMatrix<Rational> a = new SafeMatrix<Rational>(
+            RationalMatrix a = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3) },
                     { R(2), R(3), R(4) },
                     { R(3), R(4), R(5) }
                 });
 
-            SafeMatrix<Rational> b = new SafeMatrix<Rational>(
+            RationalMatrix b = new RationalMatrix(
                 new Rational[,] {
                     { R(5), R(6), R(7), R(6) },
                     { R(6), R(7), R(8), R(9) }
@@ -205,7 +204,7 @@ namespace Linalg.Tests
         public void TestTranspose()
         {
             // Arrange
-            SafeMatrix<Rational> a = new SafeMatrix<Rational>(
+            RationalMatrix a = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3) },
                     { R(2), R(3), R(4) },
@@ -214,10 +213,10 @@ namespace Linalg.Tests
                 });
 
             // Act
-            SafeMatrix<Rational> actual = a.Transpose();
+            RationalMatrix actual = a.Transpose();
 
             // Assert
-            SafeMatrix<Rational> expected = new SafeMatrix<Rational>(
+            RationalMatrix expected = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3), R(4) },
                     { R(2), R(3), R(4), R(5) },
@@ -231,7 +230,7 @@ namespace Linalg.Tests
         public void TestGetBlock()
         {
             // Arrange
-            SafeMatrix<Rational> a = new SafeMatrix<Rational>(
+            RationalMatrix a = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3) },
                     { R(2), R(3), R(4) },
@@ -240,10 +239,10 @@ namespace Linalg.Tests
                 });
 
             // Act
-            SafeMatrix<Rational> actual = a.GetBlock(2, 1, 2, 2);
+            RationalMatrix actual = a.GetBlock(2, 1, 2, 2);
 
             // Assert
-            SafeMatrix<Rational> expected = new SafeMatrix<Rational>(
+            RationalMatrix expected = new RationalMatrix(
                 new Rational[,] {
                     { R(4), R(5) },
                     { R(5), R(6) }
@@ -256,7 +255,7 @@ namespace Linalg.Tests
         public void TestGetBlockShouldFailIndexOutOfBounds()
         {
             // Arrange
-            SafeMatrix<Rational> a = new SafeMatrix<Rational>(
+            RationalMatrix a = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3) },
                     { R(2), R(3), R(4) },
@@ -272,7 +271,7 @@ namespace Linalg.Tests
         public void TestSetBlock()
         {
             // Arrange
-            SafeMatrix<Rational> a = new SafeMatrix<Rational>(
+            RationalMatrix a = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3) },
                     { R(2), R(3), R(4) },
@@ -280,7 +279,7 @@ namespace Linalg.Tests
                     { R(4), R(5), R(6) }
                 });
 
-            SafeMatrix<Rational> block = new SafeMatrix<Rational>(
+            RationalMatrix block = new RationalMatrix(
                 new Rational[,] {
                     { R(0), R(0) },
                     { R(0), R(0) }
@@ -290,7 +289,7 @@ namespace Linalg.Tests
             a.SetBlock(2, 1, block);
 
             // Assert
-            SafeMatrix<Rational> expected = new SafeMatrix<Rational>(
+            RationalMatrix expected = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3) },
                     { R(2), R(3), R(4) },
@@ -305,7 +304,7 @@ namespace Linalg.Tests
         public void TestSetBlockShouldFailIndexOutOfBounds()
         {
             // Arrange
-            SafeMatrix<Rational> a = new SafeMatrix<Rational>(
+            RationalMatrix a = new RationalMatrix(
                 new Rational[,] {
                     { R(1), R(2), R(3) },
                     { R(2), R(3), R(4) },
@@ -313,7 +312,7 @@ namespace Linalg.Tests
                     { R(4), R(5), R(6) }
                 });
 
-            SafeMatrix<Rational> block = new SafeMatrix<Rational>(
+            RationalMatrix block = new RationalMatrix(
                 new Rational[,] {
                     { R(0), R(0), R(0) },
                     { R(0), R(0), R(0) }

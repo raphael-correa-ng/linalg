@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Linalg;
+using System.Text;
 
 namespace LinAlg
 {

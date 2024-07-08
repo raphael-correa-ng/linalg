@@ -1,18 +1,18 @@
 ﻿## Linear Algebra in C#
 
-This is a math library I created to learn C#. It showcases OOP, generics, operator overloading, the dynamic keyword, LINQ, threads, and unit testing.
+This is a math library I created to learn C#. It showcases OOP, generics, operator overloading, LINQ, threads, and unit testing.
 
 The top level classes in this library are AbstractMatrix, Rational, Complex, Vector, and the Arithmetical interface that defines +-*/ operations.
 
-There are two implementations of AbstractMatrix: a generic SafeMatrix whose type parameter is restricted to objects implementing Arithmetical, and the UnsafeMatrix which is also generic but has no restrictions on the type. It accomplishes the mathematical operations by using the dynamic keyword.
+There are three implementations of AbstractMatrix: a Rational-, Complex-, and DoubleMatrix (one can easily implement Int-, Long-, and FloatMatrix as well).
+
+Both Rational and Complex implement the Arithmetical interface.
 
 Rationals are simply fractions consisting of a nominator and a denominator (long).
 
 Complex is a number consisting of a real and an imaginary part. I used composition here and made real and imaginary of type Rational. 
 
-Both Rational and Complex implement the Arithmetical interface so they can be used with the SafeMatrix.
-
-A Vector consists of Rational objects. Although I could have created a SafeVector and UnsafeVector, I did not, since that concept is already displayed in the matrices.
+A RationalVector consists of Rational objects. I could have created ComplexVector and DoubleVector, but I did not, since that concept is already displayed in the matrices.
 
 Matrices can be multiplied in parallel, which is implemented by ParallelMatrixMultiplicator. See below for the results. Not as fast as my C++ version!
 

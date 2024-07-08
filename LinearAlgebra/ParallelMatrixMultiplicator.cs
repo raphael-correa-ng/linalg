@@ -1,10 +1,11 @@
-﻿using System.Diagnostics;
+﻿using LinAlg;
+using System.Diagnostics;
 
 namespace Linalg
 {
     public class ParallelMatrixMultiplicator
     {
-        public UnsafeMatrix<T> Multiply<T>(UnsafeMatrix<T> a, UnsafeMatrix<T> b, int blockSize) 
+        public DoubleMatrix Multiply(DoubleMatrix a, DoubleMatrix b, int blockSize)
         {
             if (!a.CanMultiplyWith(b))
                 throw new ArgumentException();
@@ -18,7 +19,7 @@ namespace Linalg
                 br % blockSize != 0 || bc % blockSize != 0)
                 throw new IndexOutOfRangeException();
 
-            UnsafeMatrix<T> result = new UnsafeMatrix<T>(new T[ar, bc]);
+            DoubleMatrix result = new DoubleMatrix(new double[ar, bc]);
 
             int processCount = (ar * bc) / (blockSize * blockSize);
             int blocksPerProcess = ac / blockSize; 
@@ -28,8 +29,8 @@ namespace Linalg
 
             for (int i = 0; i < processCount; i++)
             {
-                UnsafeMatrix<T>[] blocksA = new UnsafeMatrix<T>[blocksPerProcess];
-                UnsafeMatrix<T>[] blocksB = new UnsafeMatrix<T>[blocksPerProcess];
+                DoubleMatrix[] blocksA = new DoubleMatrix[blocksPerProcess];
+                DoubleMatrix[] blocksB = new DoubleMatrix[blocksPerProcess];
 
                 int row = (i / multiplicationsPerBlock) * blockSize;
                 int col = (i % multiplicationsPerBlock) * blockSize;
@@ -50,21 +51,21 @@ namespace Linalg
             return result;
         }
 
-        private static void Multiply<T>(
-            UnsafeMatrix<T> result,
-            UnsafeMatrix<T>[] blocksA,
-            UnsafeMatrix<T>[] blocksB, 
+        private static void Multiply(
+            DoubleMatrix result,
+            DoubleMatrix[] blocksA,
+            DoubleMatrix[] blocksB, 
             int row,
             int col,
             int size)
         {
             Debug.Assert(blocksA.Length == blocksB.Length);
 
-            UnsafeMatrix<T> sumOfProducts = null;
+            DoubleMatrix sumOfProducts = null;
 
             for (int k = 0; k < blocksA.Length; k++)
             {
-                UnsafeMatrix<T> toAdd = blocksA[k].Mul(blocksB[k]);
+                DoubleMatrix toAdd = blocksA[k].Mul(blocksB[k]);
                 sumOfProducts = sumOfProducts == null ? toAdd : sumOfProducts + toAdd;
             }
 

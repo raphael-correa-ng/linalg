@@ -20,9 +20,9 @@
             return Gcd(b, a % b);
         }
 
-        public static Vector RandomVector(int length, int maxNom, int maxDen)
+        public static RationalVector RandomVector(int length, int maxNom, int maxDen)
         {
-            return new Vector(Enumerable.Range(0, length).Select(i => RandomRational(maxNom, maxDen)));
+            return new RationalVector(Enumerable.Range(0, length).Select(i => RandomRational(maxNom, maxDen)));
         }
 
         public static Rational RandomRational(int maxNom, int maxDen)
@@ -37,24 +37,36 @@
                 RandomRational(maxNom, maxDen));
         }
 
-        public static SafeMatrix<T> RandomMatrix<T>(int rows, int columns, Func<int, int, T> factory)
-            where T : IArithmetical<T>
+        public static ComplexMatrix RandomComplexMatrix(int rows, int columns)
         {
-            T[,] matrixData = new T[rows, columns];
+            Complex[,] matrixData = new Complex[rows, columns];
+
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columns; j++)
-                    matrixData[i, j] = factory(9, 9);
-            return new SafeMatrix<T>(matrixData);
+                    matrixData[i, j] = RandomComplex(9, 9);
+
+            return new ComplexMatrix(matrixData);
         }
 
-        public static UnsafeMatrix<long> RandomMatrix(int rows, int columns)
+        public static RationalMatrix RandomRationalMatrix(int rows, int columns)
+        {
+            Rational[,] matrixData = new Rational[rows, columns];
+
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < columns; j++)
+                    matrixData[i, j] = RandomRational(9, 9);
+
+            return new RationalMatrix(matrixData);
+        }
+
+        public static DoubleMatrix RandomDoubleMatrix(int rows, int columns)
         {
             Random random = new Random();
-            long[,] data = new long[rows, columns];
+            double[,] data = new double[rows, columns];
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columns; j++)
                     data[i, j] = random.Next(-10, 10);
-            return new UnsafeMatrix<long>(data);
+            return new DoubleMatrix(data);
         }
     }
 }
