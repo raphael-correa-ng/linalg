@@ -1,40 +1,38 @@
-﻿using Linalg;
-using System.Text;
+﻿using System.Text;
 
 namespace LinAlg
 {
-    public abstract class AbstractMatrix<Matrix, Component> 
-        where Matrix : AbstractMatrix<Matrix, Component>, new()
+    public abstract class AbstractMatrix<Matrix, T> where Matrix : AbstractMatrix<Matrix, T>, new()
     {
-        public Component[,] Data { get; private set; }
+        public T[,] Data { get; private set; }
         public int Rows { get; private set; }
         public int Columns { get; private set; }
 
-        public AbstractMatrix(Component[,] data)
+        public AbstractMatrix(T[,] data)
         {
             Set(data);
         }
 
-        public Component this[int i, int j]
+        public T this[int i, int j]
         {
             get { return Data[i, j]; }
             private set { Data[i, j] = value; }
         }
 
-        protected abstract Component AddComponent(Component t0, Component t1);
+        protected abstract T AddComponent(T t0, T t1);
 
-        protected abstract Component SubComponent(Component t0, Component t1);
+        protected abstract T SubComponent(T t0, T t1);
 
-        protected abstract Component MulComponent(Component t0, Component t1);
+        protected abstract T MulComponent(T t0, T t1);
 
-        protected abstract Component DivComponent(Component t0, Component t1);
+        protected abstract T DivComponent(T t0, T t1);
 
         public Matrix Add(Matrix that)
         {
             if (!IsSameDimensionsAs(that))
                 throw new ArgumentException("Cannot add matrices of different dimensions.");
 
-            Component[,] result = new Component[Rows, Columns];
+            T[,] result = new T[Rows, Columns];
 
             for (int i = 0; i < Rows; i++)
                 for (int j = 0; j < Columns; j++)
@@ -48,7 +46,7 @@ namespace LinAlg
             if (!IsSameDimensionsAs(that))
                 throw new ArgumentException("Cannot add matrices of different dimensions.");
 
-            Component[,] result = new Component[Rows, Columns];
+            T[,] result = new T[Rows, Columns];
 
             for (int i = 0; i < Rows; i++)
                 for (int j = 0; j < Columns; j++)
@@ -62,22 +60,22 @@ namespace LinAlg
             if (!CanMultiplyWith(that))
                 throw new ArgumentException("Cannot multiply matrices of such dimensions.");
 
-            Component[,] result = new Component[Rows, that.Columns];
+            T[,] result = new T[Rows, that.Columns];
 
             for (int i = 0; i < that.Columns; i++)
                 for (int j = 0; j < Columns; j++)
                     for (int k = 0; k < Rows; k++)
                     {
-                        Component toAdd = MulComponent(this[k, j], that[j, i]);
+                        T toAdd = MulComponent(this[k, j], that[j, i]);
                         result[k, i] = result[k, i] == null ? toAdd : AddComponent(result[k, i], toAdd);
                     }
 
             return new Matrix().Set(result);
         }
 
-        public Matrix Mul(Component scalar)
+        public Matrix Mul(T scalar)
         {
-            Component[,] result = new Component[Rows, Columns];
+            T[,] result = new T[Rows, Columns];
 
             for (int i = 0; i < Rows; i++)
                 for (int j = 0; j < Columns; j++)
@@ -86,9 +84,9 @@ namespace LinAlg
             return new Matrix().Set(result);
         }
 
-        public Matrix Div(Component scalar)
+        public Matrix Div(T scalar)
         {
-            Component[,] result = new Component[Rows, Columns];
+            T[,] result = new T[Rows, Columns];
 
             for (int i = 0; i < Rows; i++)
                 for (int j = 0; j < Columns; j++)
@@ -99,7 +97,7 @@ namespace LinAlg
 
         public Matrix Transpose()
         {
-            Component[,] transposed = new Component[Columns, Rows];
+            T[,] transposed = new T[Columns, Rows];
 
             for (int i = 0; i < Rows; i++)
                 for (int j = 0; j < Columns; j++)
@@ -113,7 +111,7 @@ namespace LinAlg
             if (a + rows > Rows || b + columns > Columns)
                 throw new IndexOutOfRangeException("Submatrix out of bounds.");
 
-            Component[,] block = new Component[rows, columns];
+            T[,] block = new T[rows, columns];
 
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columns; j++)
@@ -201,18 +199,18 @@ namespace LinAlg
             }
         }
 
-        private Matrix Set(Component[,] data)
+        private Matrix Set(T[,] data)
         {
             Data = data;
             Rows = data.GetLength(0);
             Columns = data.GetLength(1);
-            return (Matrix)this;
+            return (Matrix) this;
         }
 
-        public static bool operator ==(AbstractMatrix<Matrix, Component> a, AbstractMatrix<Matrix, Component> b) =>
+        public static bool operator ==(AbstractMatrix<Matrix, T> a, AbstractMatrix<Matrix, T> b) =>
             a is null && b is null || (a?.Equals(b)).GetValueOrDefault(false);
 
-        public static bool operator !=(AbstractMatrix<Matrix, Component> a, AbstractMatrix<Matrix, Component> b) => 
+        public static bool operator !=(AbstractMatrix<Matrix, T> a, AbstractMatrix<Matrix, T> b) => 
             !(a == b);
     }
 }
