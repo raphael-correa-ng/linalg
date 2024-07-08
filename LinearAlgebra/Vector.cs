@@ -84,5 +84,61 @@ namespace Linalg
             if (a.Dimension != b.Dimension)
                 throw new ArgumentException(message);
         }
+
+        public override int GetHashCode()
+        {
+            return vector
+                .Select(r => r.GetHashCode())
+                .Aggregate(17, (result, next) => result + 31 * result + next);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            if (!(obj is Vector))
+                return false;
+
+            Vector that = (Vector)obj;
+
+            if (Dimension != that.Dimension)
+                return false;
+
+            for (int i = 0; i < Dimension; i++)
+                if (this[i] != that[i])
+                    return false;
+
+            return true;
+        }
+
+        public override string ToString()
+        {
+            return "[" + string.Join(", ", (object[])vector) + "]";
+        }
+
+        public static bool operator ==(Vector a, Vector b) =>
+            a.Equals(b);
+
+        public static bool operator !=(Vector a, Vector b) =>
+           !a.Equals(b);
+
+        public static Vector operator +(Vector a, Vector b) =>
+            a.Add(b);
+
+        public static Vector operator -(Vector a, Vector b) =>
+            a.Sub(b);
+
+        public static Rational operator *(Vector a, Vector b) =>
+            a.DotProd(b);
+
+        public static Vector operator *(Vector a, Rational scalar) =>
+            a.Mul(scalar);
+
+        public static Vector operator /(Vector a, Rational scalar) =>
+            a.Div(scalar);
+
+        public static explicit operator double[](Vector a) =>
+            a.vector.Select(r => (double)r).ToArray();
     }
 }
