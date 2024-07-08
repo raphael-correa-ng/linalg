@@ -1,13 +1,5 @@
 ﻿namespace Linalg
 {
-    public interface IArithmetical<T>
-    {
-        T Add(T t);
-        T Sub(T t);
-        T Mul(T t);
-        T Div(T t);
-    }
-
     public class Utils
     {
         private static readonly Random r = new Random();
