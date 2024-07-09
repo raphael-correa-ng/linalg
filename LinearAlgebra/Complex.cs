@@ -52,9 +52,9 @@
         public Complex Div(Complex that)
         {
             Complex conj = that.ComplexConjugate();
-            Complex numerator = this * conj;
-            Rational denominator = that.Real * that.Real + that.Imag * that.Imag;
-            return new Complex(numerator.Real / denominator, numerator.Imag / denominator);
+            Complex nom = this * conj;
+            Rational den = (that.Real * that.Real) + (that.Imag * that.Imag);
+            return new Complex(nom.Real / den, nom.Imag / den);
         }
 
         public Complex ComplexConjugate()
