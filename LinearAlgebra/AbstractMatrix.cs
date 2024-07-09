@@ -1,5 +1,4 @@
-﻿using Linalg;
-using System.Text;
+﻿using System.Text;
 
 namespace LinAlg
 {
@@ -9,14 +8,16 @@ namespace LinAlg
         public int Rows { get; private set; }
         public int Columns { get; private set; }
 
-        private T zero;
-        private T one;
+        private T Zero;
+        private T One;
+        private T NegativeOne;
 
-        public AbstractMatrix(T[,] data, T zero, T one)
+        public AbstractMatrix(T[,] data, T zero, T one, T negativeOne)
         {
             Set(data);
-            this.zero = zero;
-            this.one = one;
+            Zero = zero;
+            One = one;
+            NegativeOne = negativeOne;
         }
 
         public T this[int i, int j]
@@ -25,8 +26,6 @@ namespace LinAlg
             private set { Data[i, j] = value; }
         }
 
-        public abstract T Determinant();
-
         protected abstract T AddComponent(T t0, T t1);
 
         protected abstract T SubComponent(T t0, T t1);
@@ -34,6 +33,33 @@ namespace LinAlg
         protected abstract T MulComponent(T t0, T t1);
 
         protected abstract T DivComponent(T t0, T t1);
+
+
+        public T Determinant()
+        {
+            if (!IsSquare())
+                throw new ArgumentException("Only square matrices have a determinant");
+
+            int N = Rows; // == Columns
+
+            if (N == 1)
+                return Data[0, 0];
+
+            if (N == 2)
+                return SubComponent(MulComponent(Data[0, 0], Data[1, 1]), MulComponent(Data[0, 1], Data[1, 0]));
+
+            T det = Zero;
+
+            for (int i = 0; i < N; i++)
+            {
+                T sign = Math.Pow(-1, i) == 1.0 ? One : NegativeOne;
+                Matrix subMatrix = GetBlock(1, 0, N - 1, i).Combine(GetBlock(1, i + 1, N - 1, N - 1 - i));
+                T subDeterminant = subMatrix.Determinant();
+                det = AddComponent(det, MulComponent(MulComponent(sign, Data[0, i]), subDeterminant));
+            }
+
+            return det;
+        }
 
         public Matrix Identity()
         {
@@ -46,7 +72,7 @@ namespace LinAlg
 
             for (int i = 0; i < N; i++)
                 for (int j = 0; j < N; j++)
-                    identity[i, j] = i == j ? one : zero;
+                    identity[i, j] = i == j ? One : Zero;
 
             return new Matrix().Set(identity);
         }

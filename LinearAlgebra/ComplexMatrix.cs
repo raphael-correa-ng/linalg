@@ -15,7 +15,7 @@ namespace Linalg
         }
 
         public ComplexMatrix(Complex[,] matrix)
-            : base(matrix, Complex.ZERO, Complex.ONE)
+            : base(matrix, Complex.ZERO, Complex.ONE, new Complex(new Rational(-1)))
         {
         }
 
@@ -36,31 +36,5 @@ namespace Linalg
         public static ComplexMatrix operator *(ComplexMatrix a, Complex scalar) => a.Mul(scalar);
 
         public static ComplexMatrix operator /(ComplexMatrix a, Complex scalar) => a.Div(scalar);
-
-        public override Complex Determinant()
-        {
-            if (!IsSquare())
-                throw new ArgumentException("Only square matrices have a determinant");
-
-            int N = Rows; // == Columns
-
-            if (N == 1)
-                return Data[0, 0];
-
-            if (N == 2)
-                return Data[0, 0] * Data[1, 1] - Data[0, 1] * Data[1, 0];
-
-            Complex det = new Complex(new Rational(0));
-
-            for (int i = 0; i < N; i++)
-            {
-                Complex sign = new Complex(new Rational((long)Math.Pow(-1, i)));
-                ComplexMatrix subMatrix = GetBlock(1, 0, N - 1, i).Combine(GetBlock(1, i + 1, N - 1, N - 1 - i));
-                Complex subDeterminant = subMatrix.Determinant();
-                det += sign * Data[0, i] * subDeterminant;
-            }
-
-            return det;
-        }
     }
 }
