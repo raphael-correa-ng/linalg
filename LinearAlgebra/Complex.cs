@@ -89,7 +89,7 @@
         public override string ToString()
         {
             return string.Format("{0}{1}",
-                Real != Rational.ZERO ? Real.ToString() : "",
+                Real != Rational.ZERO ? Real.ToString() : (Imag != Rational.ZERO ? "" : "0"),
                 Imag != Rational.ZERO
                     ? (Imag > Rational.ZERO && Real != Rational.ZERO ? "+" : "")
                         + (Imag == Rational.ONE ? "" : Imag == Rational.ONE.Neg() ? "-" : Imag.ToString())
