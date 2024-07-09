@@ -10,7 +10,7 @@ class MatrixDemo
         Console.ReadLine();
         ComplexMatrixDemo();
         Console.ReadLine();
-        ParallelUnsafeMatrixDemo();
+        ParallelMatrixDemo();
         Console.ReadLine();
     }
 
@@ -95,13 +95,6 @@ class MatrixDemo
         Console.WriteLine(B);
         Console.WriteLine();
 
-        Console.WriteLine("A determinant:");
-        Console.WriteLine(A.Determinant());
-        Console.WriteLine();
-        Console.WriteLine("B determinant:");
-        Console.WriteLine(B.Determinant());
-        Console.WriteLine();
-
         Console.WriteLine("A + B:");
         Console.WriteLine(A + B);
         Console.WriteLine();
@@ -122,15 +115,38 @@ class MatrixDemo
         Console.WriteLine(B * scalar);
         Console.WriteLine();
 
+        Console.WriteLine("A determinant:");
+        Console.WriteLine(A.Determinant());
+        Console.WriteLine();
+        Console.WriteLine("B determinant:");
+        Console.WriteLine(B.Determinant());
+        Console.WriteLine();
+
         Console.WriteLine("A transpose:");
         Console.WriteLine(A.Transpose());
         Console.WriteLine();
         Console.WriteLine("B transpose:");
         Console.WriteLine(B.Transpose());
         Console.WriteLine();
+
+        ComplexMatrix aInverse = A.Inverse();
+        ComplexMatrix bInverse = B.Inverse();
+
+        Console.WriteLine("A inverse:");
+        Console.WriteLine(aInverse);
+        Console.WriteLine();
+        Console.WriteLine("A * A inverse (should be the identity matrix:");
+        Console.WriteLine(A.Mul(aInverse));
+        Console.WriteLine();
+        Console.WriteLine("B inverse:");
+        Console.WriteLine(bInverse);
+        Console.WriteLine();
+        Console.WriteLine("B * B inverse (should be the identity matrix):");
+        Console.WriteLine(B.Mul(bInverse));
+        Console.WriteLine();
     }
 
-    public static void ParallelUnsafeMatrixDemo()
+    public static void ParallelMatrixDemo()
     {
         Console.WriteLine("-------PARALLEL MATRIX MULTIPLICATION DEMO-------");
         ParallelMatrixMultiplicator multiplicator = new ParallelMatrixMultiplicator();
