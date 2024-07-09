@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Linalg;
+using System.Text;
 
 namespace LinAlg
 {
@@ -18,6 +19,8 @@ namespace LinAlg
             get { return Data[i, j]; }
             private set { Data[i, j] = value; }
         }
+
+        public abstract T Determinant();
 
         protected abstract T AddComponent(T t0, T t1);
 
@@ -128,6 +131,19 @@ namespace LinAlg
             for (int i = 0; i < block.Rows; i++)
                 for (int j = 0; j < block.Columns; j++)
                     this[i + a, j + b] = block[i, j];
+        }
+
+        public Matrix Combine(AbstractMatrix<Matrix, T> other)
+        {
+            if (Rows != other.Rows)
+                throw new ArgumentException("Cannot combine matrix with different number of rows");
+
+            Matrix combined = new Matrix().Set(new T[Rows, Columns + other.Columns]);
+
+            combined.SetBlock(0, 0, this);
+            combined.SetBlock(0, Columns, other);
+
+            return combined;
         }
 
         public bool IsSameDimensionsAs(AbstractMatrix<Matrix, T> that)

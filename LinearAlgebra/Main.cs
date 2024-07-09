@@ -95,6 +95,13 @@ class MatrixDemo
         Console.WriteLine(B);
         Console.WriteLine();
 
+        Console.WriteLine("A determinant:");
+        Console.WriteLine(A.Determinant());
+        Console.WriteLine();
+        Console.WriteLine("B determinant:");
+        Console.WriteLine(B.Determinant());
+        Console.WriteLine();
+
         Console.WriteLine("A + B:");
         Console.WriteLine(A + B);
         Console.WriteLine();

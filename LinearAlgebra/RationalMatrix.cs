@@ -2,7 +2,7 @@
 
 namespace Linalg
 {
-    public partial class RationalMatrix: AbstractMatrix<RationalMatrix, Rational>
+    public partial class RationalMatrix : AbstractMatrix<RationalMatrix, Rational>
     {
         public RationalMatrix()
             : base(new Rational[0, 0])
@@ -36,5 +36,31 @@ namespace Linalg
         public static RationalMatrix operator *(RationalMatrix a, Rational scalar) => a.Mul(scalar);
 
         public static RationalMatrix operator /(RationalMatrix a, Rational scalar) => a.Div(scalar);
+
+        public override Rational Determinant()
+        {
+            if (!IsSquare())
+                throw new ArgumentException("Only square matrices have a determinant");
+
+            int N = Rows; // == Columns
+
+            if (N == 1)
+                return Data[0, 0];
+
+            if (N == 2)
+                return Data[0, 0] * Data[1, 1] - Data[0, 1] * Data[1, 0];
+
+            Rational det = new Rational(0);
+
+            for (int i = 0; i < N; i++)
+            {
+                Rational sign = new Rational((long)Math.Pow(-1, i));
+                RationalMatrix subMatrix = GetBlock(1, 0, N - 1, i).Combine(GetBlock(1, i + 1, N - 1, N - 1 - i));
+                Rational subDeterminant = subMatrix.Determinant();
+                det += sign * Data[0, i] * subDeterminant;
+            }
+
+            return det;
+        }
     }
 }

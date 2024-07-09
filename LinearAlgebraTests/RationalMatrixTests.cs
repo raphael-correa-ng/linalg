@@ -322,6 +322,25 @@ namespace Linalg.Tests
             Assert.ThrowsException<IndexOutOfRangeException>(() => a.SetBlock(2, 1, block));
         }
 
+
+        [TestMethod()]
+        public void TestDeterminant()
+        {
+            // Arrange
+            RationalMatrix a = new RationalMatrix(
+                new Rational[,] {
+                    { R(9), R(2), R(3) },
+                    { R(2), R(3), R(4) },
+                    { R(3), R(4), R(5) }
+                });
+
+            // Act
+            Rational actual = a.Determinant();
+
+            // Assert
+            Assert.AreEqual(actual, new Rational(-8));
+        }
+
         private static Rational R(long nom)
         {
             return new Rational(nom);
