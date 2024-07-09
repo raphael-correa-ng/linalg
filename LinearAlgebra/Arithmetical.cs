@@ -1,6 +1,6 @@
 ﻿namespace Linalg
 {
-    public interface IArithmetical<T>
+    public interface Arithmetical<T>
     {
         T Add(T t);
         T Sub(T t);

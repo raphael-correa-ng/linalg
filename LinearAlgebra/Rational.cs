@@ -1,6 +1,6 @@
 ﻿namespace Linalg
 { 
-    public sealed partial class Rational : IArithmetical<Rational>, ICloneable, IComparable<Rational>
+    public sealed partial class Rational : Arithmetical<Rational>, ICloneable, IComparable<Rational>
     {
         public static readonly Rational ZERO = new Rational(0);
         public static readonly Rational ONE = new Rational(1);
