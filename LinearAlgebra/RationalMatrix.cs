@@ -62,5 +62,21 @@ namespace Linalg
 
             return det;
         }
+
+        public override RationalMatrix Identity()
+        {
+            if (!IsSquare())
+                throw new ArgumentException("Non-square matrices do not have an identity");
+
+            int N = Rows; // == Columns
+
+            Rational[,] identity = new Rational[N, N];
+
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    identity[i, j] = i == j ? Rational.ONE : Rational.ZERO;
+
+            return new RationalMatrix(identity);
+        }
     }
 }

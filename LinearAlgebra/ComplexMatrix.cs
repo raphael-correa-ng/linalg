@@ -62,5 +62,21 @@ namespace Linalg
 
             return det;
         }
+
+        public override ComplexMatrix Identity()
+        {
+            if (!IsSquare())
+                throw new ArgumentException("Non-square matrices do not have an identity");
+
+            int N = Rows; // == Columns
+
+            Complex[,] identity = new Complex[N, N];
+
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    identity[i, j] = new Complex(i == j ? Rational.ONE : Rational.ZERO);
+
+            return new ComplexMatrix(identity);
+        }
     }
 }

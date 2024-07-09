@@ -55,5 +55,21 @@ namespace Linalg
 
             return det;
         }
+
+        public override DoubleMatrix Identity()
+        {
+            if (!IsSquare())
+                throw new ArgumentException("Non-square matrices do not have an identity");
+
+            int N = Rows; // == Columns
+
+            double[,] identity = new double[N, N];
+
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    identity[i, j] = i == j ? 1.0 : 0.0;
+
+            return new DoubleMatrix(identity);
+        }
     }
 }

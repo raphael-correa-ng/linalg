@@ -20,6 +20,8 @@ namespace LinAlg
             private set { Data[i, j] = value; }
         }
 
+        public abstract Matrix Identity();
+
         public abstract T Determinant();
 
         protected abstract T AddComponent(T t0, T t1);
