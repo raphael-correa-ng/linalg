@@ -2,7 +2,7 @@
 
 namespace Linalg
 {
-    public partial class ComplexMatrix: AbstractMatrix<ComplexMatrix, Complex>
+    public class ComplexMatrix: AbstractMatrix<ComplexMatrix, Complex>
     {
         public ComplexMatrix()
             : base(new Complex[0, 0])

@@ -2,7 +2,7 @@
 
 namespace Linalg
 {
-    public partial class RationalVector
+    public class RationalVector
     {
         private readonly Rational[] vector;
 

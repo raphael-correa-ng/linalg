@@ -2,7 +2,7 @@
 
 namespace Linalg
 {
-    public partial class RationalMatrix : AbstractMatrix<RationalMatrix, Rational>
+    public class RationalMatrix : AbstractMatrix<RationalMatrix, Rational>
     {
         public RationalMatrix()
             : base(new Rational[0, 0])

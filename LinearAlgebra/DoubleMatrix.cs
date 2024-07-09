@@ -2,7 +2,7 @@
 
 namespace Linalg
 {
-    public partial class DoubleMatrix: AbstractMatrix<DoubleMatrix, double>
+    public class DoubleMatrix: AbstractMatrix<DoubleMatrix, double>
     {
         public DoubleMatrix()
             : base(new double[0, 0])

@@ -1,6 +1,6 @@
 ﻿namespace Linalg
 {
-    public sealed partial class Complex : Arithmetical<Complex>, ICloneable
+    public sealed class Complex : Arithmetical<Complex>, ICloneable
     {
         public static readonly Complex ZERO = new Complex(new Rational(0));
 
