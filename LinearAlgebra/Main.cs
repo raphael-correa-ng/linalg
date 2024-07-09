@@ -49,7 +49,7 @@ class MatrixDemo
         Console.WriteLine($"A / {scalar}:");
         Console.WriteLine(A / scalar);
         Console.WriteLine();
-        Console.WriteLine($"B /* {scalar}:");
+        Console.WriteLine($"B / {scalar}:");
         Console.WriteLine(B / scalar);
         Console.WriteLine();
 
