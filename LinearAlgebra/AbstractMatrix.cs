@@ -34,49 +34,6 @@ namespace LinAlg
 
         protected abstract T DivComponent(T t0, T t1);
 
-
-        public T Determinant()
-        {
-            if (!IsSquare())
-                throw new ArgumentException("Only square matrices have a determinant");
-
-            int N = Rows; // == Columns
-
-            if (N == 1)
-                return Data[0, 0];
-
-            if (N == 2)
-                return SubComponent(MulComponent(Data[0, 0], Data[1, 1]), MulComponent(Data[0, 1], Data[1, 0]));
-
-            T det = Zero;
-
-            for (int i = 0; i < N; i++)
-            {
-                T sign = Math.Pow(-1, i) == 1.0 ? One : NegativeOne;
-                Matrix subMatrix = GetBlock(1, 0, N - 1, i).Combine(GetBlock(1, i + 1, N - 1, N - 1 - i));
-                T subDeterminant = subMatrix.Determinant();
-                det = AddComponent(det, MulComponent(MulComponent(sign, Data[0, i]), subDeterminant));
-            }
-
-            return det;
-        }
-
-        public Matrix Identity()
-        {
-            if (!IsSquare())
-                throw new ArgumentException("Non-square matrices do not have an identity");
-
-            int N = Rows; // == Columns
-
-            T[,] identity = new T[N, N];
-
-            for (int i = 0; i < N; i++)
-                for (int j = 0; j < N; j++)
-                    identity[i, j] = i == j ? One : Zero;
-
-            return new Matrix().Set(identity);
-        }
-
         public Matrix Add(AbstractMatrix<Matrix, T> that)
         {
             if (!IsSameDimensionsAs(that))
@@ -154,6 +111,48 @@ namespace LinAlg
                     transposed[j, i] = this[i, j];
 
             return new Matrix().Set(transposed);
+        }
+
+        public T Determinant()
+        {
+            if (!IsSquare())
+                throw new ArgumentException("Only square matrices have a determinant");
+
+            int N = Rows; // == Columns
+
+            if (N == 1)
+                return Data[0, 0];
+
+            if (N == 2)
+                return SubComponent(MulComponent(Data[0, 0], Data[1, 1]), MulComponent(Data[0, 1], Data[1, 0]));
+
+            T det = Zero;
+
+            for (int i = 0; i < N; i++)
+            {
+                T sign = Math.Pow(-1, i) == 1.0 ? One : NegativeOne;
+                Matrix subMatrix = GetBlock(1, 0, N - 1, i).Combine(GetBlock(1, i + 1, N - 1, N - 1 - i));
+                T subDeterminant = subMatrix.Determinant();
+                det = AddComponent(det, MulComponent(MulComponent(sign, Data[0, i]), subDeterminant));
+            }
+
+            return det;
+        }
+
+        public Matrix Identity()
+        {
+            if (!IsSquare())
+                throw new ArgumentException("Non-square matrices do not have an identity");
+
+            int N = Rows; // == Columns
+
+            T[,] identity = new T[N, N];
+
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    identity[i, j] = i == j ? One : Zero;
+
+            return new Matrix().Set(identity);
         }
 
         public Matrix GetBlock(int a, int b, int rows, int columns)
