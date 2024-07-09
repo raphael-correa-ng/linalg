@@ -5,17 +5,17 @@ namespace Linalg
     public class ComplexMatrix: AbstractMatrix<ComplexMatrix, Complex>
     {
         public ComplexMatrix()
-            : base(new Complex[0, 0])
+            : this(0, 0)
         {
         }
 
         public ComplexMatrix(int rows, int columns)
-            : base(new Complex[rows, columns])
+            : this(new Complex[rows, columns])
         {
         }
 
         public ComplexMatrix(Complex[,] matrix)
-            : base(matrix)
+            : base(matrix, Complex.ZERO, Complex.ONE)
         {
         }
 
@@ -61,22 +61,6 @@ namespace Linalg
             }
 
             return det;
-        }
-
-        public override ComplexMatrix Identity()
-        {
-            if (!IsSquare())
-                throw new ArgumentException("Non-square matrices do not have an identity");
-
-            int N = Rows; // == Columns
-
-            Complex[,] identity = new Complex[N, N];
-
-            for (int i = 0; i < N; i++)
-                for (int j = 0; j < N; j++)
-                    identity[i, j] = new Complex(i == j ? Rational.ONE : Rational.ZERO);
-
-            return new ComplexMatrix(identity);
         }
     }
 }

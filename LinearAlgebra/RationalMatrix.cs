@@ -5,17 +5,17 @@ namespace Linalg
     public class RationalMatrix : AbstractMatrix<RationalMatrix, Rational>
     {
         public RationalMatrix()
-            : base(new Rational[0, 0])
+            : this(0, 0)
         {
         }
 
         public RationalMatrix(int rows, int columns)
-            : base(new Rational[rows, columns])
+            : this(new Rational[rows, columns])
         {
         }
 
         public RationalMatrix(Rational[,] matrix)
-            : base(matrix)
+            : base(matrix, Rational.ZERO, Rational.ONE)
         {
         }
 
@@ -61,22 +61,6 @@ namespace Linalg
             }
 
             return det;
-        }
-
-        public override RationalMatrix Identity()
-        {
-            if (!IsSquare())
-                throw new ArgumentException("Non-square matrices do not have an identity");
-
-            int N = Rows; // == Columns
-
-            Rational[,] identity = new Rational[N, N];
-
-            for (int i = 0; i < N; i++)
-                for (int j = 0; j < N; j++)
-                    identity[i, j] = i == j ? Rational.ONE : Rational.ZERO;
-
-            return new RationalMatrix(identity);
         }
     }
 }
