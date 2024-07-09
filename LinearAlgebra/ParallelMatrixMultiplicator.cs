@@ -5,7 +5,7 @@ namespace Linalg
 {
     public class ParallelMatrixMultiplicator
     {
-        public AbstractMatrix<Matrix, T> Multiply<Matrix, T>(AbstractMatrix<Matrix, T> a, AbstractMatrix<Matrix, T> b, int blockSize)
+        public AbstractMatrix<Matrix, T> Multiply<Matrix, T>(AbstractMatrix<Matrix, T> a, AbstractMatrix<Matrix, T> b, int subMatrixSize)
              where Matrix : AbstractMatrix<Matrix, T>, new()
         {
             if (!a.CanMultiplyWith(b))
@@ -16,33 +16,33 @@ namespace Linalg
             int br = b.Rows;
             int bc = b.Columns;
 
-            if (ar % blockSize != 0 || ac % blockSize != 0 || 
-                br % blockSize != 0 || bc % blockSize != 0)
+            if (ar % subMatrixSize != 0 || ac % subMatrixSize != 0 || 
+                br % subMatrixSize != 0 || bc % subMatrixSize != 0)
                 throw new IndexOutOfRangeException();
 
             Matrix result = new Matrix().Set(new T[ar, bc]);
 
-            int processCount = (ar * bc) / (blockSize * blockSize);
-            int blocksPerProcess = ac / blockSize; 
-            int multiplicationsPerBlock = bc / blockSize;
+            int processCount = (ar * bc) / (subMatrixSize * subMatrixSize);
+            int subMatrixsPerProcess = ac / subMatrixSize; 
+            int multiplicationsPerBlock = bc / subMatrixSize;
 
             Thread[] threads = new Thread[processCount];
 
             for (int i = 0; i < processCount; i++)
             {
-                AbstractMatrix<Matrix, T>[] blocksA = new AbstractMatrix<Matrix, T>[blocksPerProcess];
-                AbstractMatrix<Matrix, T>[] blocksB = new AbstractMatrix<Matrix, T>[blocksPerProcess];
+                AbstractMatrix<Matrix, T>[] subMatrixsA = new AbstractMatrix<Matrix, T>[subMatrixsPerProcess];
+                AbstractMatrix<Matrix, T>[] subMatrixsB = new AbstractMatrix<Matrix, T>[subMatrixsPerProcess];
 
-                int row = (i / multiplicationsPerBlock) * blockSize;
-                int col = (i % multiplicationsPerBlock) * blockSize;
+                int row = (i / multiplicationsPerBlock) * subMatrixSize;
+                int col = (i % multiplicationsPerBlock) * subMatrixSize;
 
-                for (int j = 0; j < blocksPerProcess; j++)
+                for (int j = 0; j < subMatrixsPerProcess; j++)
                 {
-                    blocksA[j] = a.GetBlock(row, j * blockSize, blockSize, blockSize);
-                    blocksB[j] = b.GetBlock(j * blockSize, col, blockSize, blockSize);
+                    subMatrixsA[j] = a.GetSubMatrix(row, j * subMatrixSize, subMatrixSize, subMatrixSize);
+                    subMatrixsB[j] = b.GetSubMatrix(j * subMatrixSize, col, subMatrixSize, subMatrixSize);
                 }
 
-                threads[i] = new Thread(() => Multiply(result, blocksA, blocksB, row, col, blockSize));
+                threads[i] = new Thread(() => Multiply(result, subMatrixsA, subMatrixsB, row, col, subMatrixSize));
                 threads[i].Start();
             }
 
@@ -54,23 +54,23 @@ namespace Linalg
 
         private static void Multiply<Matrix, T>(
             AbstractMatrix<Matrix, T> result,
-            AbstractMatrix<Matrix, T>[] blocksA,
-            AbstractMatrix<Matrix, T>[] blocksB, 
+            AbstractMatrix<Matrix, T>[] subMatrixsA,
+            AbstractMatrix<Matrix, T>[] subMatrixsB, 
             int row,
             int col,
             int size) where Matrix : AbstractMatrix<Matrix, T>, new()
         {
-            Debug.Assert(blocksA.Length == blocksB.Length);
+            Debug.Assert(subMatrixsA.Length == subMatrixsB.Length);
 
             AbstractMatrix<Matrix, T> sumOfProducts = null;
 
-            for (int k = 0; k < blocksA.Length; k++)
+            for (int k = 0; k < subMatrixsA.Length; k++)
             {
-                AbstractMatrix<Matrix, T> toAdd = blocksA[k].Mul(blocksB[k]);
+                AbstractMatrix<Matrix, T> toAdd = subMatrixsA[k].Mul(subMatrixsB[k]);
                 sumOfProducts = sumOfProducts == null ? toAdd : sumOfProducts.Add(toAdd);
             }
 
-            result.SetBlock(row, col, sumOfProducts);
+            result.SetSubMatrix(row, col, sumOfProducts);
         }
     }
 }

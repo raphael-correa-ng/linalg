@@ -131,7 +131,7 @@ namespace LinAlg
             for (int i = 0; i < N; i++)
             {
                 T sign = Math.Pow(-1, i) == 1.0 ? One : NegativeOne;
-                Matrix subMatrix = GetBlock(1, 0, N - 1, i).Combine(GetBlock(1, i + 1, N - 1, N - 1 - i));
+                Matrix subMatrix = GetSubMatrix(1, 0, N - 1, i).Combine(GetSubMatrix(1, i + 1, N - 1, N - 1 - i));
                 T subDeterminant = subMatrix.Determinant();
                 det = AddComponent(det, MulComponent(MulComponent(sign, Data[0, i]), subDeterminant));
             }
@@ -155,28 +155,28 @@ namespace LinAlg
             return new Matrix().Set(identity);
         }
 
-        public Matrix GetBlock(int a, int b, int rows, int columns)
+        public Matrix GetSubMatrix(int a, int b, int rows, int columns)
         {
             if (a + rows > Rows || b + columns > Columns)
                 throw new IndexOutOfRangeException("Submatrix out of bounds.");
 
-            T[,] block = new T[rows, columns];
+            T[,] subMatrix = new T[rows, columns];
 
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columns; j++)
-                    block[i, j] = this[i + a, j + b];
+                    subMatrix[i, j] = this[i + a, j + b];
 
-            return new Matrix().Set(block);
+            return new Matrix().Set(subMatrix);
         }
 
-        public void SetBlock(int a, int b, AbstractMatrix<Matrix, T> block)
+        public void SetSubMatrix(int a, int b, AbstractMatrix<Matrix, T> subMatrix)
         {
-            if (block.Rows + a > Rows || block.Columns + b > Columns)
+            if (subMatrix.Rows + a > Rows || subMatrix.Columns + b > Columns)
                 throw new IndexOutOfRangeException("Submatrix out of bounds.");
 
-            for (int i = 0; i < block.Rows; i++)
-                for (int j = 0; j < block.Columns; j++)
-                    this[i + a, j + b] = block[i, j];
+            for (int i = 0; i < subMatrix.Rows; i++)
+                for (int j = 0; j < subMatrix.Columns; j++)
+                    this[i + a, j + b] = subMatrix[i, j];
         }
 
         public Matrix Combine(AbstractMatrix<Matrix, T> other)
@@ -186,8 +186,8 @@ namespace LinAlg
 
             Matrix combined = new Matrix().Set(new T[Rows, Columns + other.Columns]);
 
-            combined.SetBlock(0, 0, this);
-            combined.SetBlock(0, Columns, other);
+            combined.SetSubMatrix(0, 0, this);
+            combined.SetSubMatrix(0, Columns, other);
 
             return combined;
         }

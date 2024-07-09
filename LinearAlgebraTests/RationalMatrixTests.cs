@@ -239,7 +239,7 @@ namespace Linalg.Tests
                 });
 
             // Act
-            RationalMatrix actual = a.GetBlock(2, 1, 2, 2);
+            RationalMatrix actual = a.GetSubMatrix(2, 1, 2, 2);
 
             // Assert
             RationalMatrix expected = new RationalMatrix(
@@ -264,7 +264,7 @@ namespace Linalg.Tests
                 });
 
             // Act & Assert
-            Assert.ThrowsException<IndexOutOfRangeException>(() => a.GetBlock(2, 1, 3, 3));
+            Assert.ThrowsException<IndexOutOfRangeException>(() => a.GetSubMatrix(2, 1, 3, 3));
         }
 
         [TestMethod()]
@@ -286,7 +286,7 @@ namespace Linalg.Tests
                 });
 
             // Act
-            a.SetBlock(2, 1, block);
+            a.SetSubMatrix(2, 1, block);
 
             // Assert
             RationalMatrix expected = new RationalMatrix(
@@ -319,7 +319,7 @@ namespace Linalg.Tests
                 });
 
             // Act & Assert
-            Assert.ThrowsException<IndexOutOfRangeException>(() => a.SetBlock(2, 1, block));
+            Assert.ThrowsException<IndexOutOfRangeException>(() => a.SetSubMatrix(2, 1, block));
         }
 
         [TestMethod()]
