@@ -28,17 +28,22 @@
             Simplify();
         }
 
+        public double Magnitude()
+        {
+            return Math.Abs((double)this);
+        }
+
         public Rational Add(Rational that)
         {
             long lcm = Utils.Lcm(Den, that.Den);
-            long nom = Nom * (lcm / Den) + that.Nom * (lcm / that.Den);
+            long nom = ((Nom * lcm) / Den) + ((that.Nom * lcm) / that.Den);
             return new Rational(nom, lcm);
         }
 
         public Rational Sub(Rational that)
         {
             long lcm = Utils.Lcm(Den, that.Den);
-            long nom = Nom * (lcm / Den) - that.Nom * (lcm / that.Den);
+            long nom = ((Nom * lcm) / Den) - ((that.Nom * lcm) / that.Den);
             return new Rational(nom, lcm);
         }
 
