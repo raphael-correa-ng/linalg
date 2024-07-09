@@ -2,6 +2,8 @@
 {
     public sealed partial class Complex : Arithmetical<Complex>, ICloneable
     {
+        public static readonly Complex ZERO = new Complex(new Rational(0));
+
         public Rational Real { get; private set; } = new Rational(0);
         public Rational Imag { get; private set; } = new Rational(0);
 
@@ -19,6 +21,11 @@
         {
             Real = real;
             Imag = imag;
+        }
+
+        public double Magnitude()
+        {
+            return Math.Sqrt(Math.Pow(Real.Magnitude(), 2) + Math.Pow(Imag.Magnitude(), 2));
         }
 
         public Complex Add(Complex that)
@@ -44,10 +51,10 @@
 
         public Complex Div(Complex that)
         {
-            Complex cj = that.ComplexConjugate();
-            Complex nom = this * cj;
-            Complex den = that * cj;
-            return nom * new Complex(new Rational(1) / den.Real);
+            Complex conj = that.ComplexConjugate();
+            Complex numerator = this * conj;
+            Rational denominator = that.Real * that.Real + that.Imag * that.Imag;
+            return new Complex(numerator.Real / denominator, numerator.Imag / denominator);
         }
 
         public Complex ComplexConjugate()
