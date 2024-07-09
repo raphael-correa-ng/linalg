@@ -363,6 +363,21 @@ namespace Linalg.Tests
                 }));
         }
 
+        [TestMethod()]
+        public void TestIdentityNonSquare()
+        {
+            // Arrange
+            RationalMatrix a = new RationalMatrix(
+                new Rational[,] {
+                    { R(9), R(2), R(3), R(9) },
+                    { R(2), R(3), R(4), R(3) },
+                    { R(3), R(4), R(5), R(1) }
+                });
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentException>(a.Identity);
+        }
+
         private static Rational R(long nom)
         {
             return new Rational(nom);
