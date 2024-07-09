@@ -128,22 +128,6 @@ class MatrixDemo
         Console.WriteLine("B transpose:");
         Console.WriteLine(B.Transpose());
         Console.WriteLine();
-
-        ComplexMatrix aInverse = A.Inverse();
-        ComplexMatrix bInverse = B.Inverse();
-
-        Console.WriteLine("A inverse:");
-        Console.WriteLine(aInverse);
-        Console.WriteLine();
-        Console.WriteLine("A * A inverse (should be the identity matrix:");
-        Console.WriteLine(A.Mul(aInverse));
-        Console.WriteLine();
-        Console.WriteLine("B inverse:");
-        Console.WriteLine(bInverse);
-        Console.WriteLine();
-        Console.WriteLine("B * B inverse (should be the identity matrix):");
-        Console.WriteLine(B.Mul(bInverse));
-        Console.WriteLine();
     }
 
     public static void ParallelMatrixDemo()
