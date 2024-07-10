@@ -61,11 +61,12 @@
 
         public static DoubleMatrix RandomDoubleMatrix(int rows, int columns)
         {
-            Random random = new Random();
             double[,] data = new double[rows, columns];
+
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columns; j++)
-                    data[i, j] = random.Next(-10, 10);
+                    data[i, j] = r.Next(-10, 10) * r.NextDouble();
+
             return new DoubleMatrix(data);
         }
     }
