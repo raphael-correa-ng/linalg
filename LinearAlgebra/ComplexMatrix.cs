@@ -1,6 +1,4 @@
-﻿using LinAlg;
-
-namespace Linalg
+﻿namespace Linalg
 {
     public class ComplexMatrix: AbstractMatrix<ComplexMatrix, Complex>
     {

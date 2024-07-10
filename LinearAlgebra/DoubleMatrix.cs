@@ -1,6 +1,4 @@
-﻿using LinAlg;
-
-namespace Linalg
+﻿namespace Linalg
 {
     public class DoubleMatrix: AbstractMatrix<DoubleMatrix, double>
     {
