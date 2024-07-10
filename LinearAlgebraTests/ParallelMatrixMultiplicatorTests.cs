@@ -1,6 +1,5 @@
 ﻿using LinAlg;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace Linalg.Tests
 {
@@ -15,8 +14,8 @@ namespace Linalg.Tests
             DoubleMatrix B = Utils.RandomDoubleMatrix(75, 50);
 
             // Act
-            AbstractMatrix<DoubleMatrix, double> actual = new ParallelMatrixMultiplicator()
-                .Multiply(A, B, 25);
+            AbstractMatrix<DoubleMatrix, double> actual = 
+                new ParallelMatrixMultiplicator().Multiply(A, B, 25);
 
             // Assert
             Assert.AreEqual(actual, A * B);
@@ -30,8 +29,8 @@ namespace Linalg.Tests
             DoubleMatrix B = Utils.RandomDoubleMatrix(50, 50);
 
             // Act
-            AbstractMatrix<DoubleMatrix, double> actual = new ParallelMatrixMultiplicator()
-                .Multiply(A, B, 10);
+            AbstractMatrix<DoubleMatrix, double> actual = 
+                new ParallelMatrixMultiplicator().Multiply(A, B, 10);
 
             // Assert
             Assert.AreEqual(actual, A * B);
