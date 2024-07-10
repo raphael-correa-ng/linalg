@@ -2,7 +2,7 @@
 
 This is a math library I created to learn C#. It showcases OOP, generics, operator overloading, LINQ, threads, and unit testing.
 
-The top level classes in this library are AbstractMatrix, Rational, Complex, Vector, and the Arithmetical interface that defines +-*/ operations.
+The top level classes in this library are AbstractMatrix, Rational, Complex, Vector, and the Arithmetical interface that defines the +-*/ operations.
 
 There are three implementations of AbstractMatrix: a Rational-, Complex-, and DoubleMatrix (one can easily implement Int-, Long-, and FloatMatrix as well).
 
