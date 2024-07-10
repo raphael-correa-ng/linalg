@@ -1,5 +1,4 @@
-﻿using LinAlg;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Linalg.Tests
 {

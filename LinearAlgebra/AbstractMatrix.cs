@@ -1,7 +1,6 @@
-﻿using Linalg;
-using System.Text;
+﻿using System.Text;
 
-namespace LinAlg
+namespace Linalg
 {
     public abstract class AbstractMatrix<Matrix, T> 
         where Matrix : AbstractMatrix<Matrix, T>, new() 

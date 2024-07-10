@@ -1,5 +1,4 @@
-﻿using LinAlg;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Linalg
 {

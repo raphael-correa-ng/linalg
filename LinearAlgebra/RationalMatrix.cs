@@ -1,6 +1,4 @@
-﻿using LinAlg;
-
-namespace Linalg
+﻿namespace Linalg
 {
     public class RationalMatrix : AbstractMatrix<RationalMatrix, Rational>
     {
