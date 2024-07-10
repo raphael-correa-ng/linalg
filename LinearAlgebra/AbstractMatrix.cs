@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Linalg;
+using System.Text;
 
 namespace LinAlg
 {
@@ -268,6 +269,16 @@ namespace LinAlg
             Columns = data.GetLength(1);
             return (Matrix) this;
         }
+
+        public static Matrix operator +(AbstractMatrix<Matrix, T> a, AbstractMatrix<Matrix, T> b) => a.Add(b);
+
+        public static Matrix operator -(AbstractMatrix<Matrix, T> a, AbstractMatrix<Matrix, T> b) => a.Sub(b);
+
+        public static Matrix operator *(AbstractMatrix<Matrix, T> a, AbstractMatrix<Matrix, T> b) => a.Mul(b);
+
+        public static Matrix operator *(AbstractMatrix<Matrix, T> a, T scalar) => a.Mul(scalar);
+     
+        public static Matrix operator /(AbstractMatrix<Matrix, T> a, T scalar) => a.Div(scalar);
 
         public static bool operator ==(AbstractMatrix<Matrix, T> a, AbstractMatrix<Matrix, T> b) =>
             a is null && b is null || (a?.Equals(b)).GetValueOrDefault(false);

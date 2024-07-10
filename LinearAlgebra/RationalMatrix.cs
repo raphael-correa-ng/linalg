@@ -26,15 +26,5 @@ namespace Linalg
         protected override Rational MulComponent(Rational t0, Rational t1) => t0.Mul(t1);
 
         protected override Rational DivComponent(Rational t0, Rational t1) => t0.Div(t1);
-
-        public static RationalMatrix operator +(RationalMatrix a, RationalMatrix b) => a.Add(b);
-
-        public static RationalMatrix operator -(RationalMatrix a, RationalMatrix b) => a.Sub(b);
-
-        public static RationalMatrix operator *(RationalMatrix a, RationalMatrix b) => a.Mul(b);
-
-        public static RationalMatrix operator *(RationalMatrix a, Rational scalar) => a.Mul(scalar);
-
-        public static RationalMatrix operator /(RationalMatrix a, Rational scalar) => a.Div(scalar);
     }
 }

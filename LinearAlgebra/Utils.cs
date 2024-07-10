@@ -65,7 +65,7 @@
 
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columns; j++)
-                    data[i, j] = r.Next(-10, 10) * r.NextDouble();
+                    data[i, j] = r.Next(-10, 10);
 
             return new DoubleMatrix(data);
         }
