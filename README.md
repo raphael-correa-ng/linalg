@@ -139,10 +139,10 @@ B * B inverse (should be the identity matrix):
 
 
 -------PARALLEL MATRIX MULTIPLICATION DEMO-------
-Multiplying two matrices of 500x750 and 750x500
+Multiplying two matrices 500x750 and 750x500
 Starting parallel...
-Parallel: 00:00:22.8715471
+Parallel: 00:00:01.8720457
 Starting serial...
-Serial: 00:00:44.7796338
+Serial: 00:00:07.1717443
 Verify results are equal: True
 ```
