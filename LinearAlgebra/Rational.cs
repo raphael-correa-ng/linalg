@@ -28,6 +28,11 @@
             Simplify();
         }
 
+        public int CompareTo(Complex other)
+        {
+            return Magnitude().CompareTo(other.Magnitude());
+        }
+
         public double Magnitude()
         {
             return Math.Abs((double)this);

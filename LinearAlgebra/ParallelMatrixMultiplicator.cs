@@ -6,7 +6,8 @@ namespace Linalg
     public class ParallelMatrixMultiplicator
     {
         public AbstractMatrix<Matrix, T> Multiply<Matrix, T>(AbstractMatrix<Matrix, T> a, AbstractMatrix<Matrix, T> b, int subMatrixSize)
-             where Matrix : AbstractMatrix<Matrix, T>, new()
+            where Matrix : AbstractMatrix<Matrix, T>, new()
+            where T : IComparable<T>
         {
             if (!a.CanMultiplyWith(b))
                 throw new ArgumentException();
@@ -58,7 +59,7 @@ namespace Linalg
             AbstractMatrix<Matrix, T>[] subMatrixsB, 
             int row,
             int col,
-            int size) where Matrix : AbstractMatrix<Matrix, T>, new()
+            int size) where Matrix : AbstractMatrix<Matrix, T>, new() where T : IComparable<T>
         {
             Debug.Assert(subMatrixsA.Length == subMatrixsB.Length);
 

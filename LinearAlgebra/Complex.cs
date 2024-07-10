@@ -24,6 +24,11 @@
             Imag = imag;
         }
 
+        public int CompareTo(Complex other)
+        {
+            return Magnitude().CompareTo(other.Magnitude());
+        }
+
         public double Magnitude()
         {
             return Math.Sqrt(Math.Pow(Real.Magnitude(), 2) + Math.Pow(Imag.Magnitude(), 2));

@@ -9,8 +9,8 @@ namespace Linalg
         {
         }
 
-        public DoubleMatrix(int rows, int cols)
-            : this(new double[0, 0])
+        public DoubleMatrix(int rows, int columns)
+            : this(new double[rows, columns])
         {
         }
 

@@ -378,6 +378,25 @@ namespace Linalg.Tests
             Assert.ThrowsException<ArgumentException>(a.Identity);
         }
 
+        [TestMethod()]
+        public void TestInverse()
+        {
+            // Arrange
+            RationalMatrix a = new RationalMatrix(
+                new Rational[,] {
+                    { R(9), R(2), R(3) },
+                    { R(2), R(3), R(4) },
+                    { R(3), R(4), R(5) }
+                });
+
+            // Act
+            RationalMatrix inverse = a.Inverse();
+
+            // Assert
+            RationalMatrix identity = a.Identity();
+            Assert.AreEqual(a.Mul(inverse), identity);
+        }
+
         private static Rational R(long nom)
         {
             return new Rational(nom);

@@ -10,6 +10,8 @@ class MatrixDemo
         Console.ReadLine();
         ComplexMatrixDemo();
         Console.ReadLine();
+        RationalMatrixDemo();
+        Console.ReadLine();
         ParallelMatrixDemo();
         Console.ReadLine();
     }
@@ -114,6 +116,13 @@ class MatrixDemo
         Console.WriteLine($"B * {scalar}:");
         Console.WriteLine(B * scalar);
         Console.WriteLine();
+    }
+
+    public static void RationalMatrixDemo()
+    {
+        Console.WriteLine("-------MATRIX OF RATIONAL NUMBERS DEMO-------");
+        RationalMatrix A = Utils.RandomRationalMatrix(3, 3);
+        RationalMatrix B = Utils.RandomRationalMatrix(3, 3);
 
         Console.WriteLine("A determinant:");
         Console.WriteLine(A.Determinant());
@@ -127,6 +136,22 @@ class MatrixDemo
         Console.WriteLine();
         Console.WriteLine("B transpose:");
         Console.WriteLine(B.Transpose());
+        Console.WriteLine();
+
+        RationalMatrix aInverse = A.Inverse();
+        RationalMatrix bInverse = B.Inverse();
+
+        Console.WriteLine("A inverse:");
+        Console.WriteLine(aInverse);
+        Console.WriteLine();
+        Console.WriteLine("A * A inverse (should be the identity matrix):");
+        Console.WriteLine(A.Mul(aInverse));
+        Console.WriteLine();
+        Console.WriteLine("B inverse:");
+        Console.WriteLine(bInverse);
+        Console.WriteLine();
+        Console.WriteLine("B * B inverse (should be the identity matrix):");
+        Console.WriteLine(B.Mul(bInverse));
         Console.WriteLine();
     }
 

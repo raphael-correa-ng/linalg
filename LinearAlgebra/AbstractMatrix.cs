@@ -3,7 +3,9 @@ using System.Text;
 
 namespace LinAlg
 {
-    public abstract class AbstractMatrix<Matrix, T> where Matrix : AbstractMatrix<Matrix, T>, new()
+    public abstract class AbstractMatrix<Matrix, T> 
+        where Matrix : AbstractMatrix<Matrix, T>, new() 
+        where T : IComparable<T>
     {
         public T[,] Data { get; private set; }
         public int Rows { get; private set; }
@@ -24,7 +26,7 @@ namespace LinAlg
         public T this[int i, int j]
         {
             get { return Data[i, j]; }
-            private set { Data[i, j] = value; }
+            internal set { Data[i, j] = value; }
         }
 
         protected abstract T AddComponent(T t0, T t1);
@@ -154,6 +156,58 @@ namespace LinAlg
                     identity[i, j] = i == j ? One : Zero;
 
             return new Matrix().Set(identity);
+        }
+
+        public Matrix Inverse()
+        {
+            if (!IsSquare() || Determinant().Equals(Zero))
+                throw new ArgumentException("Matrix not invertible");
+
+            int N = Rows; // == Columns
+
+            Matrix copy = new Matrix().Set((T[,])Data.Clone());
+            Matrix inverse = copy.Identity();
+
+            for (int i = 0; i < N; i++)
+            {
+                int j = i;
+                int maxIndex = i;
+                T maxVal = copy[i, j];
+                for (int k = i + 1; k < N; k++)
+                    if (copy[k, j].CompareTo(maxVal) == 1)
+                    {
+                        maxVal = copy[k, j];
+                        maxIndex = k;
+                    }
+
+                if (!maxVal.Equals(Zero))
+                {
+                    Matrix temp = copy.GetSubMatrix(i, 0, 1, N);
+                    copy.SetSubMatrix(i, 0, copy.GetSubMatrix(maxIndex, 0, 1, N));
+                    copy.SetSubMatrix(maxIndex, 0, temp);
+                    temp = inverse.GetSubMatrix(i, 0, 1, N); ;
+                    inverse.SetSubMatrix(i, 0, inverse.GetSubMatrix(maxIndex, 0, 1, N));
+                    inverse.SetSubMatrix(maxIndex, 0, temp);
+                    for (int l = 0; l < N; l++)
+                    {
+                        copy[i, l] = DivComponent(copy[i, l], maxVal);
+                        inverse[i, l] = DivComponent(inverse[i, l], maxVal);
+                    }
+                }
+
+                for (int m = 0; m < N; m++)
+                {
+                    if (m == i) continue;
+                    T factor = copy[m, i];
+                    for (int n = 0; n < N; n++)
+                    {
+                        copy[m, n] = SubComponent(copy[m, n], MulComponent(factor, copy[i, n]));
+                        inverse[m, n] = SubComponent(inverse[m, n], MulComponent(factor, inverse[i, n]));
+                    }
+                }
+            }
+
+            return inverse;
         }
 
         public Matrix GetSubMatrix(int a, int b, int rows, int columns)
