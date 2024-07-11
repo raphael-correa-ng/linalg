@@ -62,6 +62,18 @@ namespace Linalg
             return new RationalVector(Vector.Zip(that.Vector, (a, b) => a / b));
         }
 
+        public RationalVector CrossProd(RationalVector that)
+        {
+            if (Dimension != 3 || that.Dimension != 3)
+                throw new ArgumentException("Only three dimensional vectors have a cross product");
+
+            return new RationalVector([
+                    this[1] * that[2] - this[2] * that[1],
+                    this[2] * that[0] - this[0] * that[2],
+                    this[0] * that[1] - this[1] * that[0]
+            ]);
+        }
+
         public Rational DotProd(RationalVector that)
         {
             AssertLength(this, that, "Cannot compute dot product of vectors of different dimensions");

@@ -126,6 +126,34 @@ namespace Linalg.Tests
         }
 
         [TestMethod()]
+        public void TestCrossProd()
+        {
+            // Arrange
+            RationalVector a = V(3, 6, -9);
+            RationalVector b = V(1, 2, 3);
+
+            // Act
+            RationalVector actual = a.CrossProd(b);
+
+            // Assert
+            Assert.AreEqual(actual, V(36, -18, 0));
+        }
+
+        [TestMethod()]
+        public void TestCrossProdColinear()
+        {
+            // Arrange
+            RationalVector a = V(3, 6, 9);
+            RationalVector b = V(1, 2, 3);
+
+            // Act
+            RationalVector actual = a.CrossProd(b);
+
+            // Assert
+            Assert.AreEqual(actual, V(0, 0, 0));
+        }
+
+        [TestMethod()]
         public void TestDotProdShouldFailDifferentDimensions()
         {
             // Arrange
