@@ -84,6 +84,34 @@ namespace Linalg.Tests
         }
 
         [TestMethod()]
+        public void TestPointWiseMul()
+        {
+            // Arrange
+            RationalVector a = V(1, 2, 3);
+            RationalVector b = V(4, 5, 6);
+
+            // Act
+            RationalVector actual = a.PointWiseMul(b);
+
+            // Assert
+            Assert.AreEqual(actual, V(4, 10, 18));
+        }
+
+        [TestMethod()]
+        public void TestPointWiseDiv()
+        {
+            // Arrange
+            RationalVector a = V(1, 2, 3);
+            RationalVector b = V(4, 5, 6);
+
+            // Act
+            RationalVector actual = a.PointWiseDiv(b);
+
+            // Assert
+            Assert.AreEqual(actual, new RationalVector([new Rational(1, 4), new Rational(2, 5), new Rational(1, 2)]));
+        }
+
+        [TestMethod()]
         public void TestDotProd()
         {
             // Arrange

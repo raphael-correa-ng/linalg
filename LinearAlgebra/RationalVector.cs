@@ -4,7 +4,7 @@ namespace Linalg
 {
     public class RationalVector
     {
-        private readonly Rational[] vector;
+        private readonly Rational[] Vector;
 
         public int Dimension { get; } = 0;
 
@@ -14,49 +14,59 @@ namespace Linalg
         }
 
         public RationalVector(IEnumerable<Rational> vector) {
-            this.vector = vector.ToArray();
-            Dimension = this.vector.Length;
+            this.Vector = vector.ToArray();
+            Dimension = this.Vector.Length;
         }
 
         public Rational this[int i]
         {
-            get { return vector[i]; }
+            get { return Vector[i]; }
         }
 
         public IEnumerator GetEnumerator()
         {
-            return vector.GetEnumerator();
+            return Vector.GetEnumerator();
         }
 
         public RationalVector Add(RationalVector that)
         {
             AssertLength(this, that, "Cannot add vectors of different dimensions");
 
-            return new RationalVector(vector.Zip(that.vector, (a, b) => a + b));
+            return new RationalVector(Vector.Zip(that.Vector, (a, b) => a + b));
         }
 
         public RationalVector Sub(RationalVector that)
         {
             AssertLength(this, that, "Cannot subtract vectors of different dimensions");
 
-            return new RationalVector(vector.Zip(that.vector, (a, b) => a - b));
+            return new RationalVector(Vector.Zip(that.Vector, (a, b) => a - b));
         }
 
         public RationalVector Mul(Rational scalar)
         {
-            return new RationalVector(vector.Select(r => r * scalar));
+            return new RationalVector(Vector.Select(r => r * scalar));
         }
 
         public RationalVector Div(Rational scalar)
         {
-            return new RationalVector(vector.Select(r => r / scalar));
+            return new RationalVector(Vector.Select(r => r / scalar));
+        }
+
+        public RationalVector PointWiseMul(RationalVector that)
+        {
+            return new RationalVector(Vector.Zip(that.Vector, (a, b) => a * b));
+        }
+
+        public RationalVector PointWiseDiv(RationalVector that)
+        {
+            return new RationalVector(Vector.Zip(that.Vector, (a, b) => a / b));
         }
 
         public Rational DotProd(RationalVector that)
         {
             AssertLength(this, that, "Cannot compute dot product of vectors of different dimensions");
             
-            return vector.Zip(that.vector, (a, b) => a * b)
+            return Vector.Zip(that.Vector, (a, b) => a * b)
                 .Aggregate(Rational.ZERO, (result, next) => result.Add(next));
         }
 
@@ -88,7 +98,7 @@ namespace Linalg
 
         public override int GetHashCode()
         {
-            return vector
+            return Vector
                 .Select(r => r.GetHashCode())
                 .Aggregate(17, (result, next) => result + 31 * result + next);
         }
@@ -115,7 +125,7 @@ namespace Linalg
 
         public override string ToString()
         {
-            return "[" + string.Join(", ", (object[])vector) + "]";
+            return "[" + string.Join(", ", (object[])Vector) + "]";
         }
 
         public static bool operator ==(RationalVector a, RationalVector b) =>
@@ -140,6 +150,6 @@ namespace Linalg
             a.Div(scalar);
 
         public static explicit operator double[](RationalVector a) =>
-            a.vector.Select(r => (double)r).ToArray();
+            a.Vector.Select(r => (double)r).ToArray();
     }
 }
