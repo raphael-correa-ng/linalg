@@ -133,7 +133,7 @@ namespace Linalg
             for (int i = 0; i < N; i++)
             {
                 T sign = Math.Pow(-1, i) == 1.0 ? One : NegativeOne;
-                Matrix subMatrix = GetSubMatrix(1, 0, N - 1, i).Combine(GetSubMatrix(1, i + 1, N - 1, N - 1 - i));
+                Matrix subMatrix = GetSubMatrix(1, 0, N - 1, i).CombineHorizontally(GetSubMatrix(1, i + 1, N - 1, N - 1 - i));
                 T subDeterminant = subMatrix.Determinant();
                 det = AddComponent(det, MulComponent(MulComponent(sign, Data[0, i]), subDeterminant));
             }
@@ -233,19 +233,6 @@ namespace Linalg
                     this[i + a, j + b] = subMatrix[i, j];
         }
 
-        public Matrix Combine(AbstractMatrix<Matrix, T> other)
-        {
-            if (Rows != other.Rows)
-                throw new ArgumentException("Cannot combine matrix with different number of rows");
-
-            Matrix combined = new Matrix().Set(new T[Rows, Columns + other.Columns]);
-
-            combined.SetSubMatrix(0, 0, this);
-            combined.SetSubMatrix(0, Columns, other);
-
-            return combined;
-        }
-
         public bool IsSameDimensionsAs(AbstractMatrix<Matrix, T> that)
         {
             return Rows == that.Rows && Columns == that.Columns;
@@ -321,6 +308,19 @@ namespace Linalg
             Rows = data.GetLength(0);
             Columns = data.GetLength(1);
             return (Matrix) this;
+        }
+
+        internal Matrix CombineHorizontally(AbstractMatrix<Matrix, T> other)
+        {
+            if (Rows != other.Rows)
+                throw new ArgumentException("Cannot combine matrix with different number of rows");
+
+            Matrix combined = new Matrix().Set(new T[Rows, Columns + other.Columns]);
+
+            combined.SetSubMatrix(0, 0, this);
+            combined.SetSubMatrix(0, Columns, other);
+
+            return combined;
         }
 
         public static Matrix operator +(AbstractMatrix<Matrix, T> a, AbstractMatrix<Matrix, T> b) => a.Add(b);
