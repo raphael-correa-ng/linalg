@@ -334,7 +334,7 @@ namespace Linalg
         public static Matrix operator /(AbstractMatrix<Matrix, T> a, T scalar) => a.Div(scalar);
 
         public static bool operator ==(AbstractMatrix<Matrix, T> a, AbstractMatrix<Matrix, T> b) =>
-            a is null && b is null || (a?.Equals(b)).GetValueOrDefault(false);
+            (a is null && b is null) || (a?.Equals(b)).GetValueOrDefault(false);
 
         public static bool operator !=(AbstractMatrix<Matrix, T> a, AbstractMatrix<Matrix, T> b) => 
             !(a == b);
